@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="ru.xelgo.edt.formupdate.feature">
+      <category name="ru.xelgo.edt.formupdate.category"/>
+   </feature>
+   <category-def name="ru.xelgo.edt.formupdate.category" label="EDT Form Update"/>
+</site>
