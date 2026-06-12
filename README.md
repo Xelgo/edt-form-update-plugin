@@ -2,12 +2,12 @@
 
 Batch form update plugin for 1C:EDT configuration extensions.
 
-The plugin adds an `Update forms...` command to the EDT configuration navigator context menu. It scans extension forms, lets you choose which forms to update, and calls the native EDT form update mechanism programmatically.
+The plugin adds an extension form update command to the EDT `Project` menu. It lets you choose an extension project, scans its forms, lets you choose which forms to update, and calls the native EDT form update mechanism programmatically.
 
 ## Features
 
 - Works inside 1C:EDT.
-- Adds a context menu command for extension projects and their objects.
+- Adds a Project menu command for extension projects.
 - Scans extension forms from project metadata resources.
 - Shows a checkbox table for batch selection.
 - Keeps the update dialog open while processing.
@@ -38,8 +38,8 @@ repositories/ru.xelgo.edt.formupdate.repository/target/ru.xelgo.edt.formupdate.r
 ## Usage
 
 1. Open an EDT workspace with a configuration extension project.
-2. In the configuration navigator, right-click the extension project or an object inside it.
-3. Run `Update forms...`.
+2. Run the extension form update command from the `Project` menu.
+3. Select the extension project.
 4. Select the forms to update.
 5. Click `Update`.
 6. Watch the status column and the log area for results.
@@ -83,7 +83,7 @@ Copy-Item repositories/ru.xelgo.edt.formupdate.repository/target/repository/* do
 
 ## Project Structure
 
-- `bundles/ru.xelgo.edt.formupdate.ui` - UI plugin with the navigator command and batch update dialog.
+- `bundles/ru.xelgo.edt.formupdate.ui` - UI plugin with the Project menu command and batch update dialog.
 - `features/ru.xelgo.edt.formupdate.feature` - installable Eclipse feature.
 - `repositories/ru.xelgo.edt.formupdate.repository` - p2 repository project.
 - `targets/default/default.target` - EDT 2025.2 target platform.

@@ -18,7 +18,7 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="popup:com._1c.g5.v8.dt.navigator.ui.navigator.popup?endof=group.open">
+            locationURI="menu:project?after=additions">
          <command
                commandId="ru.xelgo.edt.formupdate.ui.commands.updateForm"
                style="push"

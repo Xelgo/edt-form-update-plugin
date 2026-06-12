@@ -12,11 +12,22 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.201.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.26.0,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)",
  org.eclipse.osgi;bundle-version="[3.18.0,4.0.0)"
-Import-Package: com._1c.g5.v8.dt.core.platform;version="[12.0.0,13.0.0)",
+Import-Package: com._1c.g5.v8.bm.core;version="[9.2.0,10.0.0)",
+ com._1c.g5.v8.bm.integration;version="[11.1.500,12.0.0)",
+ com._1c.g5.v8.dt.common;version="[6.12.0,7.0.0)",
+ com._1c.g5.v8.dt.compare.core;version="[22.1.0,23.0.0)",
+ com._1c.g5.v8.dt.compare.datasource;version="[13.1.0,14.0.0)",
+ com._1c.g5.v8.dt.compare.matching;version="[10.0.0,11.0.0)",
+ com._1c.g5.v8.dt.compare.model;version="[14.0.0,15.0.0)",
+ com._1c.g5.v8.dt.core.platform;version="[12.0.0,13.0.0)",
  com._1c.g5.v8.dt.form.model;version="[13.0.0,16.0.0)",
+ com._1c.g5.v8.dt.form.service.extension;version="[9.0.0,10.0.0)",
  com._1c.g5.v8.dt.md.extension.adopt;version="[2.0.0,3.0.0)",
  com._1c.g5.v8.dt.mcore;version="[7.0.0,8.0.0)",
  com._1c.g5.v8.dt.metadata.mdclass;version="[11.0.0,13.0.0)",
- com._1c.g5.wiring;version="[2.4.0,3.0.0)"
+ com._1c.g5.v8.dt.platform.version;version="[2.21.0,3.0.0)",
+ com._1c.g5.wiring;version="[2.4.0,3.0.0)",
+ com.google.common.base;version="[15.0.0,16.0.0)",
+ org.eclipse.xtext.naming
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: ru.xelgo.edt.formupdate.ui
