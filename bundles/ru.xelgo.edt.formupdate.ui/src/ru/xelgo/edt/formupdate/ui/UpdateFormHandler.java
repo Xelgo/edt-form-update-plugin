@@ -204,7 +204,7 @@ public class UpdateFormHandler
 
         logInfo("Extension configuration found. Root class: {0}", configuration.eClass().getName()); //$NON-NLS-1$
         int[] counters = new int[2];
-        collectForm(configuration, extensionProject, modelObjectAdopter, candidates);
+        collectFormSafely(configuration, extensionProject, modelObjectAdopter, candidates);
         for (Iterator<EObject> iterator = configuration.eAllContents(); iterator.hasNext();)
         {
             EObject object = iterator.next();
@@ -212,7 +212,7 @@ public class UpdateFormHandler
                 counters[0]++;
             if (object instanceof Form)
                 counters[1]++;
-            collectForm(object, extensionProject, modelObjectAdopter, candidates);
+            collectFormSafely(object, extensionProject, modelObjectAdopter, candidates);
         }
         logInfo("Scan counters. BasicForm objects: {0}, Form objects: {1}, candidates: {2}", counters[0], counters[1], //$NON-NLS-1$
             candidates.size());
@@ -282,11 +282,19 @@ public class UpdateFormHandler
             adoptedMdForm.eResource() != null ? adoptedMdForm.eResource().getURI() : "null"); //$NON-NLS-1$
         if (adoptedForm != null)
         {
-            collectForm(adoptedForm, extensionProject, modelObjectAdopter, candidates);
+            collectFormSafely(adoptedForm, extensionProject, modelObjectAdopter, candidates);
             return;
         }
 
-        collectBasicForm(adoptedMdForm, extensionProject, modelObjectAdopter, candidates);
+        try
+        {
+            collectBasicForm(adoptedMdForm, extensionProject, modelObjectAdopter, candidates);
+        }
+        catch (RuntimeException | AssertionError e)
+        {
+            logWarning("Skipped BasicForm fallback because candidate check failed. Owner: {0}, form: {1}, error: {2}", //$NON-NLS-1$
+                getOwnerName(adoptedMdForm), adoptedMdForm.getName(), e.toString());
+        }
     }
 
     private void collectBasicForm(BasicForm adoptedMdForm, IExtensionProject extensionProject,
@@ -451,8 +459,20 @@ public class UpdateFormHandler
             Form freshAdoptedForm = sourceAdopted ? modelObjectAdopter.adopt(sourceForm, extensionProject.getVersion(),
                 null) : null;
             Form freshBaseForm = freshAdoptedForm != null ? freshAdoptedForm.getBaseForm() : null;
-            boolean baseEqual = currentBaseForm != null && freshBaseForm != null
-                && new ExtensionEqualityHelper().equals(currentBaseForm, freshBaseForm);
+            boolean baseEqual = false;
+            if (currentBaseForm != null && freshBaseForm != null)
+            {
+                try
+                {
+                    baseEqual = new ExtensionEqualityHelper().equals(currentBaseForm, freshBaseForm);
+                }
+                catch (RuntimeException | AssertionError e)
+                {
+                    logWarning(
+                        "Vendor base equality check failed. Owner: {0}, form: {1}, fallback: EDT compare, error: {2}", //$NON-NLS-1$
+                        ownerName, formName, e.toString());
+                }
+            }
             boolean updateRequired = sourceAdopted && currentBaseForm != null && freshBaseForm != null && !baseEqual
                 && isFormUpdateRequiredByEdtCompare(extensionProject, sourceForm, ownerName, formName);
             logInfo(
@@ -461,7 +481,7 @@ public class UpdateFormHandler
                 describeEObject(freshBaseForm));
             return updateRequired;
         }
-        catch (RuntimeException e)
+        catch (RuntimeException | AssertionError e)
         {
             logWarning("Vendor form update check failed. Owner: {0}, form: {1}, error: {2}", //$NON-NLS-1$
                 ownerName, formName, e.toString());
@@ -912,6 +932,20 @@ public class UpdateFormHandler
 
         candidates.add(new FormUpdateCandidate(sourceForm, formName, ownerName));
         logInfo("Candidate added. Owner: {0}, form: {1}, updatable: {2}", ownerName, formName, updatable); //$NON-NLS-1$
+    }
+
+    private void collectFormSafely(EObject object, IExtensionProject extensionProject,
+        IModelObjectAdopter modelObjectAdopter, List<FormUpdateCandidate> candidates)
+    {
+        try
+        {
+            collectForm(object, extensionProject, modelObjectAdopter, candidates);
+        }
+        catch (RuntimeException | AssertionError e)
+        {
+            logWarning("Skipped form because candidate check failed. Object: {0}, error: {1}", describeEObject(object), //$NON-NLS-1$
+                e.toString());
+        }
     }
 
     private boolean prepareBatchUpdate(ExecutionEvent event)
