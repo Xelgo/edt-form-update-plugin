@@ -1,90 +1,112 @@
 # EDT Form Update
 
-Batch form update plugin for 1C:EDT configuration extensions.
+Плагин для 1C:EDT, который помогает пакетно обновлять формы расширения после изменения форм в расширяемой конфигурации.
 
-The plugin adds an extension form update command to the EDT `Project` menu. It lets you choose an extension project, scans its forms, lets you choose which forms to update, and calls the native EDT form update mechanism programmatically.
+## Что делает плагин
 
-## Features
+Плагин добавляет в верхнее меню EDT команду **Проект -> Обновить формы расширения**.
 
-- Works inside 1C:EDT.
-- Adds a Project menu command for extension projects.
-- Scans extension forms from project metadata resources.
-- Shows a checkbox table for batch selection.
-- Keeps the update dialog open while processing.
-- Shows per-form status: success or failure.
-- Shows a progress bar and an in-dialog log with failure messages.
+После запуска команда предлагает выбрать проект расширения, проверяет формы этого расширения и показывает список только тех форм, для которых в расширяемой конфигурации есть изменения. Пользователь может выбрать одну или несколько найденных форм и обновить их пакетно.
 
-## Installation
+Для определения необходимости обновления плагин использует механизм сравнения EDT. Он ориентируется на тот же смысл проверки, что и штатное сообщение EDT:
 
-In 1C:EDT:
+```text
+Форма в расширяемой конфигурации изменена. Обновить форму в расширении?
+```
 
-1. Open `Help -> Install New Software...`.
-2. Click `Add...`.
-3. Use this update site URL:
+Само обновление формы также выполняется штатным механизмом EDT.
+
+## Зачем нужен
+
+Плагин полезен, когда в основной конфигурации изменились формы, которые уже заимствованы в расширение.
+
+Без плагина такие формы приходится открывать и обновлять вручную по одной. С плагином можно запустить одну команду, получить список реально требующих обновления форм и обновить выбранные формы за один проход.
+
+## Возможности
+
+- Добавляет команду **Обновить формы расширения** в меню **Проект**.
+- Позволяет выбрать проект расширения из текущей рабочей области EDT.
+- Находит формы расширения, для которых изменилась форма в расширяемой конфигурации.
+- Использует полный EDT compare для проверки необходимости обновления.
+- Показывает найденные формы в таблице с выбором.
+- Позволяет обновить одну, несколько или все найденные формы.
+- Показывает статус обновления по каждой форме.
+- Не закрывает окно обновления во время обработки, чтобы результат был виден сразу.
+
+## Установка
+
+В 1C:EDT:
+
+1. Откройте `Help -> Install New Software...`.
+2. Нажмите `Add...`.
+3. Укажите update site:
 
    ```text
    https://xelgo.github.io/edt-form-update-plugin/update-site/
    ```
 
-4. Install `EDT Form Update`.
-5. Restart EDT.
+4. Установите `EDT Form Update`.
+5. Перезапустите EDT.
 
-You can also install from a local archive after building the project:
+Также можно установить плагин из локального архива после сборки проекта:
 
 ```text
 repositories/ru.xelgo.edt.formupdate.repository/target/ru.xelgo.edt.formupdate.repository.zip
 ```
 
-## Usage
+## Использование
 
-1. Open an EDT workspace with a configuration extension project.
-2. Run the extension form update command from the `Project` menu.
-3. Select the extension project.
-4. Select the forms to update.
-5. Click `Update`.
-6. Watch the status column and the log area for results.
+1. Откройте рабочую область EDT, где есть проект расширения.
+2. Выполните команду **Проект -> Обновить формы расширения**.
+3. Выберите нужное расширение.
+4. Дождитесь поиска форм.
+5. Отметьте формы, которые нужно обновить.
+6. Нажмите `Update`.
+7. Проверьте статус обновления в таблице.
 
-## Compatibility
+Если форм, требующих обновления, нет, плагин покажет соответствующее сообщение.
 
-- Tested with `1C:EDT 2025.2.6.4`.
-- Built with Java 17.
-- Target platform: `targets/default/default.target`.
+## Совместимость
 
-## Build
+- Проверено с `1C:EDT 2025.2.6.4`.
+- Требуется Java 17.
+- Целевая платформа: `targets/default/default.target`.
 
-Requirements:
+## Сборка
+
+Требования:
 
 - JDK 17
 - Maven 3.9.4+
 
-Build:
+Команда сборки:
 
 ```powershell
 mvn package -DskipTests
 ```
 
-The p2 update site archive is created at:
+Архив p2 update site создается здесь:
 
 ```text
 repositories/ru.xelgo.edt.formupdate.repository/target/ru.xelgo.edt.formupdate.repository.zip
 ```
 
-The GitHub Pages update site is stored in:
+Update site для GitHub Pages находится здесь:
 
 ```text
 docs/update-site/
 ```
 
-Refresh it after a build by copying the generated repository contents:
+После сборки его можно обновить командой:
 
 ```powershell
 Copy-Item repositories/ru.xelgo.edt.formupdate.repository/target/repository/* docs/update-site/ -Recurse -Force
 ```
 
-## Project Structure
+## Структура проекта
 
-- `bundles/ru.xelgo.edt.formupdate.ui` - UI plugin with the Project menu command and batch update dialog.
-- `features/ru.xelgo.edt.formupdate.feature` - installable Eclipse feature.
-- `repositories/ru.xelgo.edt.formupdate.repository` - p2 repository project.
-- `targets/default/default.target` - EDT 2025.2 target platform.
-- `docs/update-site` - published p2 update site for GitHub Pages.
+- `bundles/ru.xelgo.edt.formupdate.ui` - UI-плагин с командой меню и окном пакетного обновления.
+- `features/ru.xelgo.edt.formupdate.feature` - Eclipse feature для установки.
+- `repositories/ru.xelgo.edt.formupdate.repository` - проект p2-репозитория.
+- `targets/default/default.target` - target platform для EDT 2025.2.
+- `docs/update-site` - опубликованный p2 update site для GitHub Pages.
