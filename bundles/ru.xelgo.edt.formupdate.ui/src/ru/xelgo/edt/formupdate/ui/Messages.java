@@ -14,6 +14,8 @@ final class Messages
     public static String UpdateFormHandler_NoExtensionProject;
     public static String UpdateFormHandler_NoSelection;
     public static String UpdateFormHandler_NotUpdatable;
+    public static String UpdateFormHandler_SelectExtensionMessage;
+    public static String UpdateFormHandler_SelectExtensionTitle;
     public static String UpdateFormHandler_Searching;
     public static String UpdateFormHandler_Success;
     public static String UpdateFormHandler_Summary;
