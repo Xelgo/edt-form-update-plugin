@@ -106,7 +106,6 @@ edt-form-update-plugin-update-site.zip
 - `features/ru.xelgo.edt.formupdate.feature` - Eclipse feature для установки.
 - `repositories/ru.xelgo.edt.formupdate.repository` - проект p2-репозитория.
 - `targets/default/default.target` - target platform для EDT 2025.2.
-- `docs` - страница GitHub Pages со ссылкой на последний релиз.
 
 ## Публикация на Infostart
 
