@@ -39,19 +39,22 @@
 
 1. Откройте `Help -> Install New Software...`.
 2. Нажмите `Add...`.
-3. Укажите update site:
+3. Укажите update site последнего релиза:
 
    ```text
-   https://xelgo.github.io/edt-form-update-plugin/update-site/
+   jar:https://github.com/Xelgo/edt-form-update-plugin/releases/latest/download/edt-form-update-plugin-update-site.zip!/
    ```
 
 4. Установите `EDT Form Update`.
 5. Перезапустите EDT.
 
-Также можно установить плагин из локального архива после сборки проекта:
+Для обновления можно использовать тот же update site: ссылка `latest` всегда указывает на последний
+опубликованный релиз.
+
+Прямая ссылка на архив update site последнего релиза:
 
 ```text
-repositories/ru.xelgo.edt.formupdate.repository/target/ru.xelgo.edt.formupdate.repository.zip
+https://github.com/Xelgo/edt-form-update-plugin/releases/latest/download/edt-form-update-plugin-update-site.zip
 ```
 
 ## Использование
@@ -91,16 +94,10 @@ mvn package -DskipTests
 repositories/ru.xelgo.edt.formupdate.repository/target/ru.xelgo.edt.formupdate.repository.zip
 ```
 
-Update site для GitHub Pages находится здесь:
+Для публикации релиза загрузите этот архив в GitHub Release под именем:
 
 ```text
-docs/update-site/
-```
-
-После сборки его можно обновить командой:
-
-```powershell
-Copy-Item repositories/ru.xelgo.edt.formupdate.repository/target/repository/* docs/update-site/ -Recurse -Force
+edt-form-update-plugin-update-site.zip
 ```
 
 ## Структура проекта
@@ -109,7 +106,7 @@ Copy-Item repositories/ru.xelgo.edt.formupdate.repository/target/repository/* do
 - `features/ru.xelgo.edt.formupdate.feature` - Eclipse feature для установки.
 - `repositories/ru.xelgo.edt.formupdate.repository` - проект p2-репозитория.
 - `targets/default/default.target` - target platform для EDT 2025.2.
-- `docs/update-site` - опубликованный p2 update site для GitHub Pages.
+- `docs` - страница GitHub Pages со ссылкой на последний релиз.
 
 ## Публикация на Infostart
 
