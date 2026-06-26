@@ -110,3 +110,9 @@ Copy-Item repositories/ru.xelgo.edt.formupdate.repository/target/repository/* do
 - `repositories/ru.xelgo.edt.formupdate.repository` - проект p2-репозитория.
 - `targets/default/default.target` - target platform для EDT 2025.2.
 - `docs/update-site` - опубликованный p2 update site для GitHub Pages.
+
+## Публикация на Infostart
+
+[![Infostart](https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg)](https://infostart.ru/1c/articles/2724058/)
+
+- Статья: [EDT Extension Tweaks: плагины, контекст расширений и гибкая доработка 1C:EDT](https://infostart.ru/1c/articles/2724058/)
